@@ -40,7 +40,7 @@ const SignIn = (props: RouteComponentProps) => {
         <div className="flex-row">
           <input
             id="email"
-            className="input"
+            className="textInput"
             placeholder="Email"
             type="email"
             name="userEmail"
@@ -51,7 +51,7 @@ const SignIn = (props: RouteComponentProps) => {
         <div className="flex-row">
           <input
             id="password"
-            className="input"
+            className="textInput"
             placeholder="Hasło"
             type="password"
             name="userPassword"

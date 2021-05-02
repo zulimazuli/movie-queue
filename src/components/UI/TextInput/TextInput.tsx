@@ -13,7 +13,7 @@ const TextInput = (props: TextInputProps) => {
         type="text" 
         onChange={props.changed} value={props.value}
         placeholder={props.placeholder}
-        className="TextInput"
+        className="textInput"
         autoComplete="off"
     />);
 }

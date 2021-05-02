@@ -1,13 +1,16 @@
-.toolbar {
+.header {
     position: fixed;
     display: flex;
+    flex-wrap: wrap;
     top: 0;
     left: 0;
+    background-color: $background-color;
     width: 100%;
     max-height: 60px;
     padding: 20px;
     box-sizing: border-box;
     font-size: 1rem;
+    
     button {
         font-size: 1rem;
         margin-left: auto;
@@ -20,7 +23,7 @@
     }
     div {
         display: flex;
-        justify-content: center;
+        flex-wrap: wrap;
         align-items: center;
     }
     span + span {

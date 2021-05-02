@@ -1,10 +1,11 @@
-.MovieQueue {
+.queue {
     margin-top: 40px;
+    margin-bottom: 20px;
     font-size: 0.75em;
     max-width: 80vw;
-}
 
-.List {
-    list-style: none;
-    margin: 0;
+    .list {
+        list-style: none;
+        word-wrap: break-word;
+    }
 }

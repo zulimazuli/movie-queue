@@ -15,8 +15,9 @@ const MovieQueue = (props : any) => {
         .sort((a: Movie, b: Movie) => b.created - a.created);
         
     return (
-        <div className="MovieQueue">
-            <ul className="List">
+        <div className="queue">
+            {sortedMovies.length > 0 && <p>Twoja kolejka:</p>}
+            <ul className="list">
                 {sortedMovies.map((e: Movie, i: number) =>
                     <MovieQueueItem key={i} id={e.id} created={e.created} url={e.url} delete={props.deleted} />
                 )}

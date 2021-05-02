@@ -11,7 +11,6 @@ export const validateExists = (array: Array<any>, prop:string, item: any) => {
     return array.some(x => x[prop] === item);
 }
 
-// todo: unit test
 export const validateIncludes = (array: Array<any>, prop:string, item: any) => {
     return array.some(x => x[prop].includes(item));
 } 
