@@ -42,19 +42,19 @@ describe('validateExists tests', () => {
 describe('validateIncludes tests', () => {
     it('array contains item that includes a string', () => {
         var array = [{ prop: "abc" }, { prop: 'abcthis123' }, { prop: '123' }];
-        const result = Validators.validateExists(array, 'prop', '123');
+        const result = Validators.validateIncludes(array, 'prop', '123');
         expect(result).toBeTruthy();
     });
   
     it('array does not contain item that includes a string', () => {
         var array = [{ prop: "abc" }, { prop: 'thisthat' }, { prop: '123' }];
-        const result = Validators.validateExists(array, 'prop', 'qwe');
+        const result = Validators.validateIncludes(array, 'prop', 'qwe');
         expect(result).toBeFalsy();
     });
   
     it('array does not contain property', () => {
         var array = [{ prop: "abc" }, { prop: 'xyz' }, { prop: '123' }];
-        const result = Validators.validateExists(array, 'props', 'xyz');
+        const result = Validators.validateIncludes(array, 'props', 'xyz');
         expect(result).toBeFalsy();
     });
 });
