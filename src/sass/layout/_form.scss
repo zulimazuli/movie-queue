@@ -1,0 +1,44 @@
+.form-box {
+    width: 100vw;
+    padding: 2em;
+    position: relative;
+    background: rgba(black, .15);
+    box-sizing: border-box;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2px; left: 0;
+      height: 2px; width: 100%;
+      
+      background-color: $primary-color;
+    }
+    
+    @media screen and (min-width: 600px) {
+      width: 50vw;
+      max-width: 18em;
+    }
+
+    .input {
+        flex: 1;
+        padding: 1em;
+        border: 0;
+        color: $gray;
+        font-size: 1rem;
+
+        &:focus {
+        outline: none;
+        transition: transform .15s ease;
+        transform: scale(1.1);
+        }
+    }
+
+    .submit {
+        display: block;
+        padding: 1em;
+        width: 100%;
+        
+    }
+    ::placeholder { color: $gray; }
+
+}

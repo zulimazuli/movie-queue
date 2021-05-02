@@ -1,0 +1,35 @@
+.toolbar {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 60px;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    button {
+        font-size: 1rem;
+        margin-left: auto;
+        background: none!important;
+        border: none;
+        padding: 0!important;
+        color: $primary-color;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    span + span {
+        color: $primary-color;
+        &::before {
+            content: "\00a0";
+        }
+    }
+    img {
+        width: 40px;
+     }
+}
