@@ -5,3 +5,5 @@ The application is in Polish as it was created for personal use.
 
 ## Tech
 React + TypeScript app with Google Firebase backend (firestore + auth)
+
+[![CircleCI](https://circleci.com/gh/zulimazuli/movie-queue.svg?style=shield)](https://app.circleci.com/pipelines/github/zulimazuli/movie-queue)
