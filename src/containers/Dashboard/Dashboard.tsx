@@ -88,7 +88,9 @@ const Dashboard = (props: RouteComponentProps) => {
   useEffect(() => {
     setLoading(true);
     fetchMovieQueue().then(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <>
