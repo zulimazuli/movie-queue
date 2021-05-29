@@ -1,6 +1,9 @@
 .header {
     position: fixed;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     top: 0;
     left: 0;
@@ -11,15 +14,8 @@
     box-sizing: border-box;
     font-size: 1rem;
     
-    button {
-        font-size: 1rem;
-        margin-left: auto;
-        background: none!important;
-        border: none;
-        padding: 0!important;
-        color: $primary-color;
-        text-decoration: underline;
-        cursor: pointer;
+    a {
+        margin-left: 15px;
     }
     div {
         display: flex;

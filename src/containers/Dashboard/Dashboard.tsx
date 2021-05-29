@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import TextInput from '../UI/TextInput/TextInput';
-import Button from '../UI/Button/Button';
-import Loader from '../UI/Loader/Loader';
+import TextInput from '../../components/UI/TextInput/TextInput';
+import Button from '../../components/UI/Button/Button';
+import Loader from '../../components/UI/Loader/Loader';
 import * as FirestoreService from '../../services/firestore';
-import MovieQueue from '../MovieQueue/MovieQueue';
+import MovieQueue from '../../components/MovieQueue/MovieQueue';
 import * as Validators from '../../validators/validators';
-import Header from '../Header/Header';
+import Header from '../../components/Header/Header';
 import { UserContext } from '../../providers/UserProvider';
 import useNotification from '../../hooks/useNotification';
+import { RouteComponentProps } from '@reach/router';
 
-function Dashboard() {
+const Dashboard = (props: RouteComponentProps) => {
   const linkPlaceholder = 'https://www.filmweb.pl/film/...';
 
   const user = useContext(UserContext);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { RouteComponentProps } from '@reach/router';
 import { authMethods } from '../../services/authMethods';
 import useNotification from '../../hooks/useNotification';
+import { RouteComponentProps } from '@reach/router';
 
 const SignIn = (props: RouteComponentProps) => {
   const [email, setEmail] = useState('');
