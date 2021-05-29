@@ -1,10 +1,14 @@
 version: 2.1
 
-jobs:
-  build:
+executors:
+  my-executor:
     docker:
       - image: cimg/node:14.17.0
     working_directory: ~/repo
+
+jobs:
+  build:
+    executor: my-executor
     steps:
       - checkout
       - restore_cache:
@@ -25,8 +29,7 @@ jobs:
           paths:
             - ./node_modules
   deploy:
-    requires:
-      - hold
+    executor: my-executor
     steps:
       - run:
           name: Deploy to Firebase
