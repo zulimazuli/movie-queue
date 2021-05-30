@@ -25,15 +25,17 @@ jobs:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-  test:
-    executor: my-executor
-    steps:
       - run:
           name: Test Application
           command: npm test 
   deploy:
     executor: my-executor
     steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run:
           name: Deploy to Firebase
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting
@@ -42,15 +44,10 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test:
-          context: movie-queue
-          requires:
-            - build
       - hold:
           type: approval
           requires:
             - build
-            - test
       - deploy:
           requires:
             - hold
