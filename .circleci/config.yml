@@ -27,11 +27,7 @@ jobs:
             - ./node_modules
       - run:
           name: Test Application
-          command: npm test 
-  hold:
-    filters:
-      branches:
-        only: master    
+          command: npm test   
   deploy:
     executor: my-executor
     steps:
@@ -43,9 +39,6 @@ jobs:
       - run:
           name: Deploy to Firebase
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting
-    filters:
-      branches:
-        only: master
 
 workflows:
   build_and_test:
@@ -56,7 +49,13 @@ workflows:
           type: approval
           requires:
             - build
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - hold
           context: movie-queue
+          filters:
+            branches:
+              only: master
