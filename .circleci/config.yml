@@ -43,7 +43,8 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - build
+      - build:
+          context: movie-queue
       - hold:
           type: approval
           requires:
