@@ -40,6 +40,9 @@ jobs:
           name: Install Dependencies
           command: npm install
       - run:
+          name: Install Firebase tools
+          command: npm install firebase-tools
+      - run:
           name: Build Application
           command: npm run build
       - run:
