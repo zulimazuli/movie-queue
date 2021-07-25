@@ -41,7 +41,7 @@ jobs:
           command: npm install
       - run:
           name: Install Firebase tools
-          command: npm install firebase-tools
+          command: npm install -D firebase-tools
       - run:
           name: Build Application
           command: npm run build

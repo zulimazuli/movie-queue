@@ -64,7 +64,7 @@ const Dashboard = (props: RouteComponentProps) => {
   };
 
   const fetchMovieQueue = () =>
-    FirestoreService.getMovieQueue(user.uid!).then((querySnapshot) => {
+    FirestoreService.getMovieQueueForUser(user.uid!).then((querySnapshot) => {
       let list: any = [];
       querySnapshot.docs.forEach((d) => {
         list.unshift({ id: d.id, ...d.data() });
