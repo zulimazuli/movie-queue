@@ -10,10 +10,19 @@ interface MovieItem {
 
 const MovieQueueItem = (props : MovieItem) => {
     return (
-        <li className="Item">
-            <a href={props.url}>{props.url}</a>
-            <button onClick={() => props.delete(props.id)} className="DeleteButton" title="Usuń">X</button>
-        </li>)
+      <li className="Item">
+        <a href={props.url} target="_blank" rel="noreferrer">
+          {props.url}
+        </a>
+        <button
+          onClick={() => props.delete(props.id)}
+          className="DeleteButton"
+          title="Usuń"
+        >
+          X
+        </button>
+      </li>
+    );
  }
 
 export default MovieQueueItem;

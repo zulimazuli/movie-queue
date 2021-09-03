@@ -11,9 +11,10 @@ interface Movie {
 const MovieQueue = (props : any) => {
   
     const sortedMovies: Array<Movie> = props.movies
-        .filter((element: Movie) => !element.processed)
-        .sort((a: Movie, b: Movie) => b.created - a.created);
-        
+
+      .filter((element: Movie) => !element?.processed)
+      .sort((a: Movie, b: Movie) => b.created - a.created);
+
     return (
         <div className="queue">
             {sortedMovies.length > 0 && <p>Twoja kolejka:</p>}
