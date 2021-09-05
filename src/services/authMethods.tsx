@@ -1,11 +1,12 @@
-import { auth } from "./firebase"
+import { addInfo } from '../helpers/Notifications';
+import { auth } from './firebase';
 
 export const authMethods = {
-
-    signin: async (email: string, password: string) => {
-        await auth.signInWithEmailAndPassword(email, password);
-      },
-    signout: () => {
-        auth.signOut();
-      },
-    }
+  signin: async (email: string, password: string) => {
+    await auth.signInWithEmailAndPassword(email, password);
+  },
+  signout: () => {
+    auth.signOut();
+    addInfo('Wylogowano');
+  },
+};

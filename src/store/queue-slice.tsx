@@ -21,6 +21,9 @@ const queueSlice = createSlice({
   name: 'queue',
   initialState: initialQueueStore,
   reducers: {
+    clearQueue(state) {
+      state.queue = [];
+    },
     addLinkToQueue(state, action) {
       const newItem: AddedItem = action.payload;
       newItem.id = 'temp-' + new Date().toISOString();
