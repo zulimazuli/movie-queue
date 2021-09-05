@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TextInput from '../../components/UI/TextInput/TextInput';
 import Button from '../../components/UI/Button/Button';
-import Loader from '../../components/UI/Loader/Loader';
 import MovieQueue from '../../components/MovieQueue/MovieQueue';
 import * as Validators from '../../validators/validators';
 import Header from '../../components/Header/Header';
@@ -15,70 +14,87 @@ import {
 } from '../../store/queue-actions';
 import { RootState } from '../../store';
 import { addError } from '../../helpers/Notifications';
+import { queueActions } from '../../store/queue-slice';
+import { AddedItem } from '../../interfaces/Dtos';
 
 const Dashboard = (props: RouteComponentProps) => {
   const dispatch = useDispatch();
   const movies = useSelector((state: RootState) => state.queue.queue);
-  const loading = useSelector((state: RootState) => state.ui.loading);
 
   const linkPlaceholder = 'https://www.filmweb.pl/film/...';
 
   const user = useContext(UserContext);
+  const userId = user.uid!;
 
-  const [link, setLink] = useState('');
+  const [linkInput, setLinkInput] = useState('');
+
+  const onAdd = () => {
+    const linkItem: AddedItem = { url: linkInput, userId: userId };
+    dispatch(queueActions.addLinkToQueue(linkItem));
+    dispatch(addItemToQueue(linkItem));
+  };
+
+  const onRemove = (itemId: string) => {
+    dispatch(queueActions.removeItemFromQueue(itemId));
+    dispatch(removeItemFromQueue({ itemId, userId }));
+  };
 
   const handleInputChange = (e: any) => {
-    setLink(e.target.value);
+    setLinkInput(e.target.value);
   };
 
   const handleAddButtonClick = () => {
     let isError = false;
 
-    if (!Validators.validateUrl(link)) {
+    if (!Validators.validateUrl(linkInput)) {
       addError('Niepoprawny link.');
       isError = true;
     }
 
     if (
-      Validators.validateExists(movies, 'url', link) ||
-      Validators.validateIncludes(movies, 'url', link)
+      Validators.validateExists(movies, 'url', linkInput) ||
+      Validators.validateIncludes(movies, 'url', linkInput)
     ) {
       addError('Ten link już był dodany');
       isError = true;
     }
 
     if (!isError) {
-      dispatch(addItemToQueue({ link, userId: user.uid! }));
-      setLink('');
+      onAdd();
+      setLinkInput('');
     } else {
     }
   };
 
-  const deleteItemHandler = (itemId: string) => {
-    dispatch(removeItemFromQueue(itemId));
+  const deleteButtonHandler = (itemId: string) => {
+    onRemove(itemId);
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+      handleAddButtonClick();
+    }
   };
 
   useEffect(() => {
-    dispatch(fetchQueueData(user.uid!));
-  }, [user.uid, dispatch]);
+    dispatch(fetchQueueData(userId));
+  }, [userId, dispatch]);
 
   return (
     <>
       <Header />
-      <Loader show={loading}></Loader>
       <div className="addLinkPanel">
         <div>Umieść link do filmu:</div>
         <TextInput
           id="link"
           changed={handleInputChange}
-          value={link}
+          value={linkInput}
           placeholder={linkPlaceholder}
+          onKeyDown={handleKeyDown}
         />
-        <Button clicked={handleAddButtonClick} disabled={loading}>
-          Dodaj
-        </Button>
+        <Button clicked={handleAddButtonClick}>Dodaj</Button>
       </div>
-      <MovieQueue movies={movies} deleted={deleteItemHandler} />
+      <MovieQueue movies={movies} deleted={deleteButtonHandler} />
     </>
   );
 };

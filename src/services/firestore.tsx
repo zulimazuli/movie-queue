@@ -1,11 +1,11 @@
 import { User } from '../interfaces/User';
 import { firestore } from './firebase';
 
-export const addMovieLink = async (link: string, uid: string) => {
+export const addMovieLink = async (url: string, userId: string) => {
   return await firestore.collection('movieQueue').add({
     created: Date.now(),
-    url: link,
-    userId: uid,
+    url: url,
+    userId: userId,
   });
 };
 

@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   AnyAsyncThunk,
-  RejectedActionFromAsyncThunk,
+  RejectedWithValueActionFromAsyncThunk,
 } from '@reduxjs/toolkit/dist/matchers';
 import { addError, addInfo, addSuccess } from '../helpers/Notifications';
+import { AddedItem } from '../interfaces/Dtos';
 import {
   addItemToQueue,
   fetchQueueData,
@@ -19,25 +20,35 @@ const initialQueueStore: QueueState = { queue: [] };
 const queueSlice = createSlice({
   name: 'queue',
   initialState: initialQueueStore,
-  reducers: {},
+  reducers: {
+    addLinkToQueue(state, action) {
+      const newItem: AddedItem = action.payload;
+      newItem.id = 'temp-' + new Date().toISOString();
+      state.queue.unshift(action.payload);
+    },
+    removeItemFromQueue(state, action) {
+      state.queue = state.queue.filter((item) => item.id !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchQueueData.fulfilled, (state, action) => {
         state.queue = action.payload;
       })
-      .addCase(addItemToQueue.fulfilled, (state, action) => {
-        state.queue.unshift(action.payload);
-        addSuccess('Dodano link');
+      .addCase(addItemToQueue.fulfilled, () => {
+        addSuccess('Dodano link do listy');
       })
-      .addCase(removeItemFromQueue.fulfilled, (state, action) => {
-        state.queue = state.queue.filter((item) => item.id !== action.payload);
-        addInfo('Usunięto link');
+      .addCase(removeItemFromQueue.fulfilled, () => {
+        addInfo('Usunięto link z listy');
       })
       .addMatcher(
-        (action): action is RejectedActionFromAsyncThunk<AnyAsyncThunk> =>
+        (
+          action
+        ): action is RejectedWithValueActionFromAsyncThunk<AnyAsyncThunk> =>
           action.type.endsWith('/rejected'),
-        (state, action) => {
+        (_state, action) => {
           addError('Wystąpił bład!');
+          console.error(action.payload);
         }
       );
   },

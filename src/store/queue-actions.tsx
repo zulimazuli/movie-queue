@@ -1,14 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AddedItem, RemovedItem } from '../interfaces/Dtos';
 import {
   addMovieLink,
   getMovieQueue,
   removeMovieLink,
 } from '../services/firestore';
-
-export interface addItemToQueueModel {
-  link: string;
-  userId: string;
-}
 
 export const fetchQueueData = createAsyncThunk(
   'queue/fetchData',
@@ -23,16 +19,26 @@ export const fetchQueueData = createAsyncThunk(
 
 export const addItemToQueue = createAsyncThunk(
   'queue/addData',
-  async (model: addItemToQueueModel) => {
-    await addMovieLink(model.link, model.userId);
-    return { url: model.link, userId: model.userId };
+  async (model: AddedItem, { dispatch, rejectWithValue }) => {
+    try {
+      await addMovieLink(model.url, model.userId);
+      dispatch(fetchQueueData(model.userId));
+    } catch (error: any) {
+      rejectWithValue(error.message);
+    }
   }
 );
 
 export const removeItemFromQueue = createAsyncThunk(
   'queue/deleteData',
-  async (itemId: string) => {
-    await removeMovieLink(itemId);
-    return itemId;
+  async (model: RemovedItem, { dispatch, rejectWithValue }) => {
+    try {
+      await removeMovieLink(model.itemId);
+
+      dispatch(fetchQueueData(model.userId));
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
   }
 );
+
