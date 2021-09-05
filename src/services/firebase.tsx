@@ -1,6 +1,6 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -28,5 +28,5 @@ if (
     'http://localhost:' + process.env.REACT_APP_FIREBASE_EMULATOR_AUTH_PORT
   );
 
-  console.log('Running on local Firebase Emulator...');
+  console.info('Running on local Firebase Emulator...');
 }

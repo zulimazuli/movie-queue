@@ -44,11 +44,9 @@ const Dashboard = (props: RouteComponentProps) => {
   };
 
   const handleAddButtonClick = () => {
-    let isError = false;
-
     if (!Validators.validateUrl(linkInput)) {
       addError('Niepoprawny link.');
-      isError = true;
+      return;
     }
 
     if (
@@ -56,14 +54,11 @@ const Dashboard = (props: RouteComponentProps) => {
       Validators.validateIncludes(movies, 'url', linkInput)
     ) {
       addError('Ten link już był dodany');
-      isError = true;
+      return;
     }
 
-    if (!isError) {
-      onAdd();
-      setLinkInput('');
-    } else {
-    }
+    onAdd();
+    setLinkInput('');
   };
 
   const deleteButtonHandler = (itemId: string) => {
