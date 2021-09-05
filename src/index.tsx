@@ -7,14 +7,18 @@ import reportWebVitals from './reportWebVitals';
 import 'react-notifications-component/dist/theme.css';
 import ReactNotification from 'react-notifications-component';
 import UserProvider from './providers/UserProvider';
+import { Provider } from 'react-redux';
+import { store } from './store/index';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ReactNotification />
-    <UserProvider>
-      <App />
-    </UserProvider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <ReactNotification />
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
