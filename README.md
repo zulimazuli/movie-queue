@@ -4,6 +4,6 @@ An application for queuing the movies you want to watch. It comes in the form of
 The application is in Polish as it was created for fun personal use.
 
 ## Tech
-React + Redux + TypeScript app with Google Firebase backend (firestore + auth)
+React + Redux + TypeScript app with Google Firebase backend (Firestore + auth)
 
 [![CircleCI](https://circleci.com/gh/zulimazuli/movie-queue.svg?style=shield)](https://app.circleci.com/pipelines/github/zulimazuli/movie-queue)

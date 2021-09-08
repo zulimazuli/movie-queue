@@ -1,11 +1,10 @@
 .queue {
     margin-top: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-size: 0.75em;
-    max-width: 80vw;
 
-    .list {
-        list-style: none;
-        word-wrap: break-word;
+    .queue-list {
+        display: flex;
+        flex-direction: column;
     }
 }

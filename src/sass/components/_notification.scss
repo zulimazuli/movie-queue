@@ -11,5 +11,11 @@
   .notification__content {
     padding: 20px !important;
   }
-  
-  
+
+  .notification__item--success {
+    background-color: $primary-color !important;
+    border-left: 8px solid $primary-color-bright !important;
+    .notification__close {
+      background-color: $primary-color !important;
+    }
+  }

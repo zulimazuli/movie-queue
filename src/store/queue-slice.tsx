@@ -3,7 +3,7 @@ import {
   AnyAsyncThunk,
   RejectedWithValueActionFromAsyncThunk,
 } from '@reduxjs/toolkit/dist/matchers';
-import { addError, addInfo, addSuccess } from '../helpers/Notifications';
+import { addError, addSuccess } from '../helpers/Notifications';
 import { AddedItem } from '../interfaces/Dtos';
 import {
   addItemToQueue,
@@ -39,10 +39,10 @@ const queueSlice = createSlice({
         state.queue = action.payload;
       })
       .addCase(addItemToQueue.fulfilled, () => {
-        addSuccess('Dodano link do listy');
+        addSuccess('Dodano link do listy.');
       })
       .addCase(removeItemFromQueue.fulfilled, () => {
-        addInfo('Usunięto link z listy');
+        addSuccess('Usunięto link z listy.');
       })
       .addMatcher(
         (
@@ -50,7 +50,7 @@ const queueSlice = createSlice({
         ): action is RejectedWithValueActionFromAsyncThunk<AnyAsyncThunk> =>
           action.type.endsWith('/rejected'),
         (_state, action) => {
-          addError('Wystąpił bład!');
+          addError('Wystąpił błąd!');
           console.error(action.payload);
         }
       );
