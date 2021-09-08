@@ -16,7 +16,7 @@ const MovieQueue = (props: any) => {
   return (
     <div className="queue">
       {sortedMovies.length > 0 && <p>Twoja kolejka:</p>}
-      <ul className="list">
+      <ul className="queue-list">
         {sortedMovies.map((e: Movie, i: number) => (
           <MovieQueueItem
             key={i}

@@ -3,7 +3,6 @@ import TextInput from '../../components/UI/TextInput/TextInput';
 import Button from '../../components/UI/Button/Button';
 import MovieQueue from '../../components/MovieQueue/MovieQueue';
 import * as Validators from '../../validators/validators';
-import Header from '../../components/Header/Header';
 import { UserContext } from '../../providers/UserProvider';
 import { RouteComponentProps } from '@reach/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,7 +44,7 @@ const Dashboard = (props: RouteComponentProps) => {
 
   const handleAddButtonClick = () => {
     if (!Validators.validateUrl(linkInput)) {
-      addError('Niepoprawny link.');
+      addError('Nieprawidłowy link.');
       return;
     }
 
@@ -53,7 +52,7 @@ const Dashboard = (props: RouteComponentProps) => {
       Validators.validateExists(movies, 'url', linkInput) ||
       Validators.validateIncludes(movies, 'url', linkInput)
     ) {
-      addError('Ten link już był dodany');
+      addError('Ten link już był dodany.');
       return;
     }
 
@@ -76,8 +75,7 @@ const Dashboard = (props: RouteComponentProps) => {
   }, [userId, dispatch]);
 
   return (
-    <>
-      <Header />
+    <div className="dashboard">
       <div className="addLinkPanel">
         <div>Umieść link do filmu:</div>
         <TextInput
@@ -90,7 +88,7 @@ const Dashboard = (props: RouteComponentProps) => {
         <Button clicked={handleAddButtonClick}>Dodaj</Button>
       </div>
       <MovieQueue movies={movies} deleted={deleteButtonHandler} />
-    </>
+    </div>
   );
 };
 
