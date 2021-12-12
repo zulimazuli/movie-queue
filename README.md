@@ -3,6 +3,8 @@ An application for queuing the movies you want to watch. It comes in the form of
 
 The application is in Polish as it was created for fun personal use.
 
+Demo available: https://zm-movie-queue.web.app/
+
 ## Tech
 React + Redux + TypeScript app with Google Firebase backend (Firestore + auth)
 
