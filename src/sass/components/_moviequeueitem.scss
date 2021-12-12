@@ -1,0 +1,60 @@
+.queue-item:first-child {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.queue-item:last-child {
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+.queue-item {
+    display: flex;
+    position: relative;
+    padding: .75rem .75rem .75rem 1.25rem;
+    margin-bottom: -1px;
+    border: 1px solid $gray;
+    justify-content: space-between;
+
+    a {
+        text-overflow:  ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        @media (max-width: 600px) {
+            direction: rtl;
+        }
+    }
+}
+
+@media screen and (min-width: 960px) {
+.queue-item:hover::before {
+    position: absolute;
+    background-color: $primary-color;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: .1;
+    content: "";
+    z-index: -1;        
+}
+}
+
+.delete-button {
+    color: rgb(180, 0, 0);
+    background: none;
+    border: none;
+    cursor:  pointer;
+    outline: none;
+}
+
+.delete-button:hover {
+    color: rgb(250, 0, 0);
+}
+
+.delete-button:after {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: inline-block;
+    content: "\00d7";      
+}

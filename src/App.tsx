@@ -10,6 +10,7 @@ import NotFound from './containers/NotFound/NotFound';
 import Loader from './components/UI/Loader/Loader';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
+import Header from './components/Header/Header';
 
 function App() {
   const user = useContext(UserContext);
@@ -18,9 +19,10 @@ function App() {
   return (
     <Fragment>
       <Loader show={loading}></Loader>
+      {user && <Header />}
       <Router>
         {user ? <Dashboard path="/" /> : <SignIn path="/" />}
-        {user?.isAdmin ? <Admin path="/admin" /> : null}
+        {user?.isAdmin && <Admin path="/admin" />}
         <NotFound default />
       </Router>
       <Footer />

@@ -1,4 +1,4 @@
-import { addInfo } from '../helpers/Notifications';
+import { addSuccess } from '../helpers/Notifications';
 import { auth } from './firebase';
 
 export const authMethods = {
@@ -7,6 +7,6 @@ export const authMethods = {
   },
   signout: () => {
     auth.signOut();
-    addInfo('Wylogowano');
+    addSuccess('Wylogowano');
   },
 };

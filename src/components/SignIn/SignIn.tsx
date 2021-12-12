@@ -1,25 +1,41 @@
 import React, { useState } from 'react';
 import { authMethods } from '../../services/authMethods';
-import useNotification from '../../hooks/useNotification';
 import { RouteComponentProps } from '@reach/router';
+import { addError, addSuccess } from '../../helpers/Notifications';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../store/ui-slice';
 
 const SignIn = (props: RouteComponentProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const { addSuccess, addError } = useNotification();
+  const dispatch = useDispatch();
 
   const signIn = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    dispatch(uiActions.showLoader());
     authMethods
       .signin(email, password)
       .then(() => {
         addSuccess('Zalogowano!');
       })
-      .catch((err) => {
-        addError('Niepoprawny email lub hasło.');
-        console.error('error siging in: ', err);
+      .catch((error) => {
+        var errorCode = error.code;
+        if (errorCode === 'auth/wrong-password') {
+          addError('Niepoprawne hasło.');
+        } else if (
+          errorCode === 'auth/invalid-email' ||
+          errorCode === 'auth/user-not-found'
+        ) {
+          addError('Niepoprawny Email.');
+        } else if (errorCode === 'auth/network-request-failed') {
+          addError('Błąd połączenia z serwerem.');
+        } else {
+          addError('Błąd: ' + error.message);
+        }
+      })
+      .finally(() => {
+        dispatch(uiActions.hideLoader());
       });
   };
 
