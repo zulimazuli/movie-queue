@@ -1,120 +1,95 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TextInput from '../../components/UI/TextInput/TextInput';
 import Button from '../../components/UI/Button/Button';
-import Loader from '../../components/UI/Loader/Loader';
-import * as FirestoreService from '../../services/firestore';
 import MovieQueue from '../../components/MovieQueue/MovieQueue';
 import * as Validators from '../../validators/validators';
-import Header from '../../components/Header/Header';
 import { UserContext } from '../../providers/UserProvider';
-import useNotification from '../../hooks/useNotification';
 import { RouteComponentProps } from '@reach/router';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addItemToQueue,
+  fetchQueueData,
+  removeItemFromQueue,
+} from '../../store/queue-actions';
+import { RootState } from '../../store';
+import { addError } from '../../helpers/Notifications';
+import { queueActions } from '../../store/queue-slice';
+import { AddedItem } from '../../interfaces/Dtos';
 
 const Dashboard = (props: RouteComponentProps) => {
+  const dispatch = useDispatch();
+  const movies = useSelector((state: RootState) => state.queue.queue);
+
   const linkPlaceholder = 'https://www.filmweb.pl/film/...';
 
   const user = useContext(UserContext);
+  const userId = user.uid!;
 
-  const [link, setLink] = useState('');
-  const [movies, setMovies] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
+  const [linkInput, setLinkInput] = useState('');
 
-  const { addSuccess, addError, addInfo } = useNotification();
-
-  const handleInputChange = (e: any) => {
-    setLink(e.target.value);
+  const onAdd = () => {
+    const linkItem: AddedItem = { url: linkInput, userId: userId };
+    dispatch(queueActions.addLinkToQueue(linkItem));
+    dispatch(addItemToQueue(linkItem));
   };
 
-  const handleButtonClick = () => {
-    setLoading(true);
-    let isError = false;
-    
-    if (!Validators.validateUrl(link)) {
-      addError('Niepoprawny link.');
-      isError = true;
+  const onRemove = (itemId: string) => {
+    dispatch(queueActions.removeItemFromQueue(itemId));
+    dispatch(removeItemFromQueue({ itemId, userId }));
+  };
+
+  const handleInputChange = (e: any) => {
+    setLinkInput(e.target.value);
+  };
+
+  const handleAddButtonClick = () => {
+    if (!Validators.validateUrl(linkInput)) {
+      addError('Nieprawidłowy link.');
+      return;
     }
 
     if (
-      Validators.validateExists(movies, 'url', link) ||
-      Validators.validateIncludes(movies, 'url', link)
+      Validators.validateExists(movies, 'url', linkInput) ||
+      Validators.validateIncludes(movies, 'url', linkInput)
     ) {
-      addError('Ten link już był dodany');
-      isError = true;
+      addError('Ten link już był dodany.');
+      return;
     }
 
-    if (!isError) {
-      handleAddMovieLink(link);
-      setLink('');
-    } else {
-      setLoading(false);
+    onAdd();
+    setLinkInput('');
+  };
+
+  const deleteButtonHandler = (itemId: string) => {
+    onRemove(itemId);
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+      handleAddButtonClick();
     }
-  };
-
-  const handleAddMovieLink = (link: string) => {
-    FirestoreService.addMovieLink(link, user.uid!)
-      .then(() => {
-        addSuccess('Dodano link do listy');
-        fetchMovieQueue();
-      })
-      .catch((err) => {
-        addError('Coś poszło nie tak...');
-        console.error(err);
-      })
-      .finally(() => setLoading(false));
-  };
-
-  const fetchMovieQueue = () =>
-    FirestoreService.getMovieQueueForUser(user.uid!).then((querySnapshot) => {
-      let list: any = [];
-      querySnapshot.docs.forEach((d) => {
-        list.unshift({ id: d.id, ...d.data() });
-      });
-      setMovies(list);
-    });
-
-  const deleteItemHandler = (id: string) => {
-    setLoading(true);
-    FirestoreService.removeMovieLink(id)
-      .then(() => {
-        setLoading(false);
-        fetchMovieQueue();
-        addInfo('Usunięto wybrany link');
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 
   useEffect(() => {
-    setLoading(true);
-    fetchMovieQueue().then(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+    dispatch(fetchQueueData(userId));
+  }, [userId, dispatch]);
 
   return (
-    <>
-      <Header />
-      <Loader show={loading}></Loader>
+    <div className="dashboard">
       <div className="addLinkPanel">
         <div>Umieść link do filmu:</div>
         <TextInput
           id="link"
           changed={handleInputChange}
-          value={link}
+          value={linkInput}
           placeholder={linkPlaceholder}
+          onKeyDown={handleKeyDown}
         />
-        <Button clicked={handleButtonClick} disabled={loading}>
-          Dodaj
-        </Button>
+        <Button clicked={handleAddButtonClick}>Dodaj</Button>
       </div>
-      <MovieQueue
-        movies={movies}
-        deleted={deleteItemHandler}
-        loader={setLoading}
-      />
-    </>
+      <MovieQueue movies={movies} deleted={deleteButtonHandler} />
+    </div>
   );
-}
+};
 
 export default Dashboard;

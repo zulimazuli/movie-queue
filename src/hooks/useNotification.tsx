@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import { store } from "react-notifications-component";
 
+/**
+* Obsolete
+*/
 const useNotification = () => {
     
     const add = (type: "success" | "danger" | "info" | "default" | "warning" | undefined, message: string) =>
