@@ -17,6 +17,14 @@ export const getMovieQueue = (uid: string) => {
   return firestore.collection('movieQueue').where('userId', '==', uid).get();
 };
 
+export const getMovieQueueForAll = () => {
+  return firestore.collection('movieQueue').get();
+};
+
+export const getUsers = () => {
+  return firestore.collection('user').get();
+};
+
 export const getUserRole = (uid: string) => {
   return firestore
     .collection('user')

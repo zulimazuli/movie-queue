@@ -2,9 +2,21 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AddedItem, RemovedItem } from '../interfaces/Dtos';
 import {
   addMovieLink,
+  getMovieQueueForAll,
   getMovieQueue,
   removeMovieLink,
 } from '../services/firestore';
+
+export const fetchAllQueuesData = createAsyncThunk(
+  'queue/fetchAllData',
+  async () => {
+    const querySnapshot = await getMovieQueueForAll();
+
+    return querySnapshot.docs.map((doc: any) => {
+      return { id: doc.id, ...doc.data() };
+    });
+  }
+);
 
 export const fetchQueueData = createAsyncThunk(
   'queue/fetchData',
@@ -41,4 +53,3 @@ export const removeItemFromQueue = createAsyncThunk(
     }
   }
 );
-
